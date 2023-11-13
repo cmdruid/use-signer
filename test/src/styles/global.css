@@ -1,0 +1,105 @@
+html, body, #app, #app>div, #__next {
+  height: 100%;
+  font-size: small;
+  color: white;
+  background-color: #2f2f2f;
+  font-family: sans-serif;
+}
+
+h2 {
+  color: white;
+  font-weight: bold;
+  margin-top: 0;
+}
+
+input {
+  max-width: 100%;
+}
+
+textarea:focus, input:focus {
+  outline: none;
+}
+
+.App {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container {
+  border: 1px solid rgba(81, 121, 131, 0.9);;
+  border-radius: 3px;
+  background-color: rgba(81, 121, 131, 0.5);
+  padding: 1rem;
+  margin: 1rem;
+  min-width: 200px;
+  max-width: 700px;
+  word-wrap: break-word;
+  overflow: auto;
+  overflow-wrap: break-word;
+}
+
+.profile {
+  text-align: left;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  /* max-width: 20rem; */
+  /* width: 100%; */
+}
+
+.toast {
+  margin: 0;
+  padding: 0 1rem;
+  background-color: rgba(255, 0, 0, 0.25);
+  border-radius: 3px;
+}
+
+.row {
+  font-family: monospace;
+}
+
+.row button {
+  font-family: monospace;
+  height: 2rem;
+  width: 2rem;
+  padding: 0;
+}
+
+.events textarea {
+  border: 1px solid white;
+  font-family: monospace;
+}
+
+.session-entry {
+  display: flex;
+  align-items: center;
+  border: 1px transparent;
+  background-color: rgba(81, 121, 131, 0.9);
+  border-radius: 5px;
+  padding: 15px;
+  justify-content: space-between;
+  color: white;
+}
+
+.session-entry p {
+  margin: 0;
+  font-weight: bold;
+}
+
+.session-entry pre {
+  background-color: white;
+  margin: 10px;
+  padding: 10px;
+  color: black;
+}
+
+.session-entry button {
+  font-weight: bold;
+  margin: 0;
+  color: white;
+  background-color: maroon;
+}
