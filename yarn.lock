@@ -216,12 +216,29 @@
     "@noble/hashes" "^1.3.0"
     "@scure/base" "^1.1.3"
 
+"@cmdcode/buff@^2.2.3":
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/@cmdcode/buff/-/buff-2.2.3.tgz#49f5e7eaa8a953c7c3bec1fc1ff55c1e611db850"
+  integrity sha512-GmG6RmQP9llMEr2kkR04Y8ctMAodg35xrK4x3dNGAa0OngKCzzEp1aoAt2cNVGyNwEo7zLzrtIw7QLGWhqnxww==
+  dependencies:
+    "@noble/hashes" "^1.3.0"
+    "@scure/base" "^1.1.3"
+
 "@cmdcode/crypto-tools@2.6.1", "@cmdcode/crypto-tools@^2.6.1":
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/@cmdcode/crypto-tools/-/crypto-tools-2.6.1.tgz#aab6202f8cfcc4527afe1b84193a3827de6e8841"
   integrity sha512-UaBodL+fOalmD+6t+fpjSnonFe1yDPoj7/i09pE+dUjaUXixGn2SrB+MGrhuqDfyFwI2DEa2DxX/lOMy50FkJQ==
   dependencies:
     "@cmdcode/buff" "^2.2.2"
+    "@noble/curves" "^1.1.0"
+    "@noble/hashes" "^1.3.0"
+
+"@cmdcode/crypto-tools@^2.6.2":
+  version "2.6.2"
+  resolved "https://registry.yarnpkg.com/@cmdcode/crypto-tools/-/crypto-tools-2.6.2.tgz#d3b8d2307be705ee875ac032e41e176a74da623d"
+  integrity sha512-ywsSxBBxu+jpdleCRQUsQ+sjFs8MLpRSbcBJeYfgjAO1noBYnkpWNf62xrjtY6fEDosgyVt8NMm9yCe9z7tWNA==
+  dependencies:
+    "@cmdcode/buff" "^2.2.3"
     "@noble/curves" "^1.1.0"
     "@noble/hashes" "^1.3.0"
 
@@ -232,11 +249,6 @@
   dependencies:
     "@cmdcode/buff" "^2.2.2"
     "@cmdcode/crypto-tools" "^2.6.1"
-
-"@cmdcode/use-store@^1.0.6":
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/@cmdcode/use-store/-/use-store-1.0.6.tgz#2439439c2052a735420d8b28459d1d636115d68f"
-  integrity sha512-SeUdb1rCpB8JYNQti+hZfkI6kb6q384IXo/H4VguQv0KJlLOvURzgEjHJLZTodmgrKqjRbtHEosufYIO2wgjsQ==
 
 "@esbuild/android-arm64@0.18.20":
   version "0.18.20"
@@ -387,7 +399,7 @@
   dependencies:
     "@noble/hashes" "1.3.2"
 
-"@noble/hashes@1.3.2", "@noble/hashes@^1.3.0":
+"@noble/hashes@1.3.2", "@noble/hashes@^1.3.0", "@noble/hashes@~1.3.0":
   version "1.3.2"
   resolved "https://registry.yarnpkg.com/@noble/hashes/-/hashes-1.3.2.tgz#6f26dbc8fbc7205873ce3cee2f690eba0d421b39"
   integrity sha512-MVC8EAQp7MvEcm30KWENFjgR+Mkmf+D189XJTkFIlwohU5hcBbn1ZkKq7KVTi2Hme3PMGF390DaL52beVrIihQ==
@@ -412,10 +424,18 @@
     "@cmdcode/crypto-tools" "^2.6.1"
     zod "^3.22.4"
 
-"@scure/base@^1.1.3":
+"@scure/base@^1.1.3", "@scure/base@~1.1.0":
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/@scure/base/-/base-1.1.3.tgz#8584115565228290a6c6c4961973e0903bb3df2f"
   integrity sha512-/+SgoRjLq7Xlf0CWuLHq2LUZeL/w65kfzAPG5NH9pcmBhs+nunQTn4gvdwgMTIXnt9b2C/1SeL2XiysZEyIC9Q==
+
+"@scure/bip39@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@scure/bip39/-/bip39-1.2.1.tgz#5cee8978656b272a917b7871c981e0541ad6ac2a"
+  integrity sha512-Z3/Fsz1yr904dduJD0NpiyRHhRYHdcnyh73FZWiV+/qhWi83wNJ3NWolYqCEN+ZWsUz2TWwajJggcRE9r1zUYg==
+  dependencies:
+    "@noble/hashes" "~1.3.0"
+    "@scure/base" "~1.1.0"
 
 "@types/babel__core@^7.20.3":
   version "7.20.4"

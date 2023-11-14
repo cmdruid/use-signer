@@ -3,8 +3,8 @@
 A simple drop-in signing device for your react app.
 
 - Generate or import an existing signing key.
+- Supports BIP32 and BIP39 formats for import.
 - Keys are stored password-encrypted in session storage.
-- Supports BIP32 and BIP39 formats for import and export.
 - Uses the `Signer API` to provide many signing options.
 
 ## Import

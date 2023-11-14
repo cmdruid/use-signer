@@ -5,7 +5,7 @@ export default function () {
   const { sessions } = useSigner()
 
   return (
-    <div className='container' id='posts'>
+    <div className='container'>
       <h2>Sessions</h2>
       { sessions.length !== 0
         && sessions.map(e => <SessionElement id={e[0]} key={e[0]} />)

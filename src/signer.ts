@@ -18,80 +18,114 @@ import {
   SignerStore
 } from './types.js'
 
-export const session_key = 'use_signer'
+import * as importer from './importer.js'
+
+export const session_key = 'signer'
 
 type StoreAPI  = ReturnType<typeof initStore<SignerStore>>
 type SignerAPI = Signer 
 
 export function initSigner (reducer : StoreAPI) {
-  const { store, update, reset : clear } = reducer
+  const { store, update, reset } = reducer
   const { init_key, sessions } = store
   const [ signer, setSigner ]  = useState<SignerAPI | null>(null)
 
-  const get_id = (label : string, pass : string) => {
-    const preimg = Buff.json([ session_key, init_key, label, pass ])
+  const gen_words = importer.gen_words
+  
+  const get_id = (pass : string) => {
+    const preimg = Buff.json([ session_key, init_key, pass ])
     return hash340('signer/id', preimg).hex
   }
 
-  const create = async (
-    label  : string,
+  const close_key = () => {
+    void setSigner(null)
+  }
+
+  const clear_all = () => {
+    close_key()
+    void reset()
+  }
+
+  const create_key = async (
     pass   : string,
     seckey : string,
     config : SignerConfig = {}
   ) => {
-    const id = get_id(label, pass)
+    const id = get_id(pass)
     if (get_session(id, sessions) !== undefined) {
       throw new Error('session already exists: ' + id)
     }
-    const encrypted = await encrypt_session(seckey, config, label, pass, session_key, init_key)
+    const encrypted = await encrypt_session(seckey, config, pass, session_key, init_key)
     const created   = new Signer(seckey, config)
     setSigner(created)
     update({ sessions : [ ...store.sessions, [ id, encrypted ] ] })
     return created
   }
 
-  const generate = async (
-    label   : string,
+  const import_key = (
     pass    : string,
     config ?: SignerConfig
   ) => {
-    const seckey = Buff.random(32).hex
-    return create(label, pass, seckey, config)
+    return {
+      from_bip39 : (words : string | string[], password ?: string) => {
+        const { seckey, hd_code } = importer.from_bip39(words, password)
+        config = { ...config, hd_code }
+        return create_key(pass, seckey.hex, config)
+      },
+      from_phrase : (phrase : string) => {
+        const { seckey, hd_code } = importer.from_phrase(phrase)
+        config = { ...config, hd_code }
+        return create_key(pass, seckey.hex, config)
+      },
+      from_seed : (seed : string) => {
+        const { seckey, hd_code } = importer.from_seed(seed)
+        config = { ...config, hd_code }
+        return create_key(pass, seckey.hex, config)
+      },
+      from_xprv : (xprv : string) => {
+        const { seckey, hd_code } = importer.from_xprv(xprv)
+        config = { ...config, hd_code }
+        return create_key(pass, seckey.hex, config)
+      }
+    }
   }
 
-  const seed = async (
-    label   : string,
-    pass    : string,
-    seed    : string, 
-    config ?: SignerConfig
-  ) => {
-    const seckey = Buff.str(seed).digest.hex
-    return create(label, pass, seckey, config)
-  }
-
-  const remove = async (id : string) => {
+  const remove_key = async (id : string) => {
     const updated = rem_session(id, sessions)
     update({ sessions : updated })
   }
 
-  const unlock = async (label : string, pass : string) => {
-    const id   = get_id(label, pass)
+  const load_key = async (pass : string) => {
+    const id   = get_id(pass)
     const data = get_session(id, sessions)
     if (data === undefined) {
       throw new Error('session not found for id: ' + id)
     }
-    const selected = await decrypt_session(label, pass, data[1], session_key, init_key)
+    const selected = await decrypt_session(pass, data[1], session_key, init_key)
     setSigner(selected)
     return selected
   }
 
-  return { clear, create, generate, remove, seed, sessions, signer : signer, unlock }
+  return {
+    store : {
+      clear  : clear_all,
+      close  : close_key,
+      create : create_key,
+      data   : store,
+      import : import_key,
+      load   : load_key,
+      remove : remove_key
+    },
+    gen_words,
+    get_id,
+    sessions,
+    signer
+  }
 }
 
 async function encrypt_session (
   seckey   : string,
   config   : SignerConfig,
-  label    : string,
   pass     : string,
   sess_key : string,
   init_key : string
@@ -99,21 +133,20 @@ async function encrypt_session (
   const session = JSON.stringify([ seckey, config ])
   const vector  = Buff.random(32).hex
   const stamp   = Math.floor(Date.now() / 1000).toString()
-  const preimg  = Buff.json([ sess_key, init_key, label, pass, stamp ])
+  const preimg  = Buff.json([ sess_key, init_key, pass, stamp ])
   const secret  = hash340('signer/key', preimg)
   const payload = await encrypt(session, secret, vector)
   return `${payload}?iv=${vector}&stamp=${stamp}`
 }
 
 async function decrypt_session (
-  label    : string,
   pass     : string,
   payload  : string,
   sess_key : string,
   init_key : string
 ) {
   const { encrypted, iv, stamp } = parse_payload(payload)
-  const preimg    = Buff.json([ sess_key, init_key, label, pass, stamp ])
+  const preimg    = Buff.json([ sess_key, init_key, pass, stamp ])
   const secret    = hash340('signer/key', preimg)
   const decrypted = await decrypt(encrypted, secret, iv) 
   try {

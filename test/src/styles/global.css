@@ -33,8 +33,7 @@ textarea:focus, input:focus {
   background-color: rgba(81, 121, 131, 0.5);
   padding: 1rem;
   margin: 1rem;
-  min-width: 200px;
-  max-width: 700px;
+  width: 350px;
   word-wrap: break-word;
   overflow: auto;
   overflow-wrap: break-word;
@@ -83,6 +82,7 @@ textarea:focus, input:focus {
   padding: 15px;
   justify-content: space-between;
   color: white;
+  margin-bottom: 5px;
 }
 
 .session-entry p {
@@ -102,4 +102,20 @@ textarea:focus, input:focus {
   margin: 0;
   color: white;
   background-color: maroon;
+}
+
+#words {
+  display: flex;
+  width: 330px;
+  height: 300px;
+  flex-wrap: wrap;
+  padding: 5px;
+  margin-bottom: 15px;
+}
+
+#words span {
+  width: 100px;
+  margin: 1px;
+  padding: 5px;
+  background-color: #2f2f2f;
 }

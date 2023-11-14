@@ -5,13 +5,12 @@ interface Props {
 }
 
 export default function SessionElement({ id } : Props) {
-  const { remove } = useSigner()
+  const { store } = useSigner()
 
   return (
     <div className="session-entry">
-      <p>ID:</p>
-      <pre>{ id }</pre>
-      <button onClick={ () => remove(id) }>X</button>
+      <p>{ id.slice(0, 12) + ' ... ' + id.slice(-12) }</p>
+      <button onClick={ () => store.remove(id) }>X</button>
     </div>
   )
 }
